@@ -7,5 +7,8 @@ node_modules
 .cdk.staging
 cdk.out
 
+# Build artifact — copied from nzism-mcp/data at synth time
+src/lambda/nzism-mcp/data/
+
 # Local context (may contain account-specific values)
 cdk.context.json
