@@ -1,0 +1,12 @@
+{
+  "acknowledged-issue-numbers": [
+    34892,
+    32775,
+    31885
+  ],
+  "domainName": "nzism.example.com",
+  "hostedZoneId": "Z1234567890",
+  "hostedZoneName": "example.com",
+  "certificateArn": "arn:aws:acm:us-east-1:123456789012:certificate/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+  "overwriteDns": false
+}
