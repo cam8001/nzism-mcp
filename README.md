@@ -55,6 +55,16 @@ Add it as a custom connector (Settings → Connectors → Add custom connector) 
 
 Cursor and any other MCP client that supports remote Streamable HTTP servers can use the same URL.
 
+### Agent skill
+
+A skill teaches your agent when and how to use the server, including how to search well and cite results. Install it with the [skills CLI](https://github.com/vercel-labs/skills):
+
+```bash
+npx skills add cam8001/nzism-mcp
+```
+
+The skill does not connect the server for you. Add the MCP server first using one of the sections above. The skill lives in `skills/nzism/SKILL.md`.
+
 ## Tools
 
 - `query_nzism` — keyword search across the entire NZISM, ranked by relevance. Supports AND/OR matching.

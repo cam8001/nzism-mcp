@@ -19,6 +19,7 @@ nzism-mcp/                 Python package (uv, Python 3.13+)
   data/deeplinks.json      Paragraph ID -> online-document anchor (committed)
   data/nzism_index.json    Built index, loaded at startup (committed)
   data/README.md           Records the NZISM version and download date
+skills/nzism/SKILL.md       Consumer skill for `npx skills add` (how to connect and query the server)
 nzism-mcp-cdk/             CDK (TypeScript) stack: CloudFront -> WAF -> API Gateway -> Lambda
   lib/nzism-mcp-cdk-stack.ts
   src/lambda/nzism-mcp/server.py   Lambda copy of the server (FastAPI + FastMCP)

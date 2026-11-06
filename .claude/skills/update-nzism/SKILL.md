@@ -1,6 +1,8 @@
 ---
 name: update-nzism
 description: Refresh the indexed NZISM document when a new version is released. Use when the user says there is a new NZISM version, asks to update or re-index the NZISM data, or provides a new nzism.xml.
+metadata:
+  internal: true
 ---
 
 # Update the NZISM data
