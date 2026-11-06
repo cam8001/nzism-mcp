@@ -369,7 +369,7 @@ dependencies = [
 [package.metadata]
 requires-dist = [
     { name = "mangum", specifier = ">=0.21.0" },
-    { name = "mcp", extras = ["cli"], specifier = ">=1.28.1,<2" },
+    { name = "mcp", extras = ["cli"], specifier = ">=1.30.0,<2" },
 ]
 
 [[package]]

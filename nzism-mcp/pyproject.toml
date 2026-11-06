@@ -6,5 +6,5 @@ readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
     "mangum>=0.21.0",
-    "mcp[cli]>=1.28.1,<2",
+    "mcp[cli]>=1.30.0,<2",
 ]
