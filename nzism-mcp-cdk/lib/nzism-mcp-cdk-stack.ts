@@ -200,8 +200,8 @@ export class NzismMcpCdkStack extends cdk.Stack {
     // --- Outputs ---
 
     const endpoint = domainName
-      ? `https://${domainName}/`
-      : `https://${distribution.distributionDomainName}/`;
+      ? `https://${domainName}/mcp`
+      : `https://${distribution.distributionDomainName}/mcp`;
 
     new cdk.CfnOutput(this, "McpEndpoint", {
       value: endpoint,

@@ -9,22 +9,51 @@ The NZISM is a publicly available document published by the [GCSB](https://www.g
 The server is hosted at:
 
 ```
-https://nzism-mcp.camerontod.com/
+https://nzism-mcp.camerontod.com/mcp
 ```
 
-Add it to [Kiro](https://kiro.dev) by adding the following to your MCP config (`~/.kiro/settings/mcp.json`) or agent file. Remote servers must be added by editing the config directly — `kiro-cli mcp add` only supports local stdio servers.
+The path must be `/mcp`; the bare domain returns 404. The transport is Streamable HTTP.
+
+### Kiro
+
+Add the following to your MCP config (`~/.kiro/settings/mcp.json`) or agent file. Remote servers must be added by editing the config directly — `kiro-cli mcp add` only supports local stdio servers.
 
 ```json
 {
   "mcpServers": {
     "nzism": {
-      "url": "https://nzism-mcp.camerontod.com/"
+      "url": "https://nzism-mcp.camerontod.com/mcp"
     }
   }
 }
 ```
 
-This also works with Claude Desktop, Cursor, or any other MCP client that supports remote servers over Streamable HTTP.
+### Claude Code
+
+```bash
+claude mcp add --transport http nzism https://nzism-mcp.camerontod.com/mcp
+```
+
+Add `--scope user` to make it available in every project, or `--scope project` to write it to a shared `.mcp.json`. Check with `claude mcp list`, or `/mcp` inside a session.
+
+### Claude Desktop
+
+Add it as a custom connector (Settings → Connectors → Add custom connector) using the URL above. If your plan doesn't offer custom connectors, bridge it with [`mcp-remote`](https://www.npmjs.com/package/mcp-remote) in `claude_desktop_config.json`:
+
+```json
+{
+  "mcpServers": {
+    "nzism": {
+      "command": "npx",
+      "args": ["-y", "mcp-remote", "https://nzism-mcp.camerontod.com/mcp"]
+    }
+  }
+}
+```
+
+### Other clients
+
+Cursor and any other MCP client that supports remote Streamable HTTP servers can use the same URL.
 
 ## Tools
 
@@ -52,18 +81,40 @@ uv sync
 uv run python server.py
 ```
 
-Add to Kiro as a local stdio server:
+Use the absolute path to the `nzism-mcp/` subdirectory (the one containing `server.py`) below.
+
+Kiro (stdio) — add to `~/.kiro/settings/mcp.json`:
 
 ```json
 {
   "mcpServers": {
     "nzism": {
       "command": "uv",
-      "args": ["run", "--directory", "/path/to/nzism-mcp", "python", "server.py"]
+      "args": ["run", "--directory", "/path/to/nzism-mcp/nzism-mcp", "python", "server.py"]
     }
   }
 }
 ```
+
+Claude Code (stdio):
+
+```bash
+claude mcp add nzism -- uv run --directory /path/to/nzism-mcp/nzism-mcp python server.py
+```
+
+Claude Desktop (stdio) uses the same `command`/`args` block as the Kiro example, in `claude_desktop_config.json`.
+
+## Updating the NZISM data
+
+When a new NZISM version is published, download the XML in a browser from <https://nzism.gcsb.govt.nz/ism-document/xml> (the site's bot protection blocks curl), then:
+
+```bash
+cd nzism-mcp
+./update.sh --check ~/Downloads/nzism.xml   # preview changes, touches nothing
+./update.sh ~/Downloads/nzism.xml           # apply and rebuild the index
+```
+
+Then update the version line in `nzism-mcp/data/README.md`, check `data/deeplinks.json` (the script warns if new sections have no deeplink; there is no scraper for it yet), and redeploy. See [AGENTS.md](AGENTS.md) for details.
 
 ## AWS deployment
 
@@ -72,6 +123,7 @@ To deploy your own instance, see the [`nzism-mcp-cdk/`](nzism-mcp-cdk/) director
 ## Project structure
 
 ```
-nzism-mcp/          Local MCP server (Python)
+nzism-mcp/          Local MCP server (Python), data files, index builder, update.sh
 nzism-mcp-cdk/      CDK stack for AWS Lambda deployment
+AGENTS.md           Orientation for AI agents and new contributors
 ```
